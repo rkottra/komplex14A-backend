@@ -13,10 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+use App\Http\Controllers\Pilota;
+Route::get('/api/token', function () {
+    return csrf_token();
 });
 
-use App\Http\Controllers\Pilota;
 Route::get('/api/pilotak', [Pilota::class, 'getPilotak']);
+
+Route::delete('/api/pilotak/{id}', [Pilota::class, 'deletePilota']);
 

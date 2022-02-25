@@ -16,4 +16,8 @@ class Pilota extends Controller
                             INNER JOIN csapatok ON csapatok.csapatid = versenyzok.csapat");
                             
     }
+
+    public function deletePilota($id) {
+        return DB::delete("DELETE FROM versenyzok WHERE ID = ?", array($id));
+    }
 }
