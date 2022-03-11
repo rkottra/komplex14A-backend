@@ -20,4 +20,43 @@ class Pilota extends Controller
     public function deletePilota($id) {
         return DB::delete("DELETE FROM versenyzok WHERE ID = ?", array($id));
     }
+
+    public function insertPilota(Request $request) {
+
+        $validated = $request->validate([
+            'nev' => 'required',
+            'szuletes' => 'required',
+            'magassag' => 'required|integer',
+            'csapat' => 'required|array',
+        ]);
+
+        return DB::insert("INSERT INTO versenyzok (nev, nemzet, szuletes, magassag, csapat)
+                            VALUES (?, ?, ?, ?, ?)", array(
+                                $validated["nev"],
+                                "magyar",
+                                date("Y-m-d", strtotime($validated["szuletes"])),
+                                $validated["magassag"],
+                                $validated["csapat"]["csapatid"]
+                            ));
+    }
+
+    public function updatePilota($id, Request $request) {
+
+        $validated = $request->validate([
+            'nev' => 'required',
+            'szuletes' => 'required',
+            'magassag' => 'required|integer',
+            'csapat' => 'required|array',
+        ]);
+
+        return DB::update("UPDATE versenyzok SET nev = ?, nemzet = ?, szuletes= ?, magassag= ?, csapat = ?
+                            WHERE id = ?", array(
+                                $validated["nev"],
+                                "magyar",
+                                date("Y-m-d", strtotime($validated["szuletes"])),
+                                $validated["magassag"],
+                                $validated["csapat"]["csapatid"],
+                                $id
+                            ));
+    }
 }
